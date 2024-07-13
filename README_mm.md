@@ -1,4 +1,4 @@
-<h1 align="center">💦 BPB အကန့်</h1>
+<h1 align="center">💦 BPB 4-0-4 Panel</h1>
 
 ### 🌏 Readme in [English](README.md)
 
