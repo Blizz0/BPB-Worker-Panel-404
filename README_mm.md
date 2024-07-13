@@ -1,6 +1,6 @@
 <h1 align="center">💦 BPB အကန့်</h1>
 
-### 🌏 Readme in [Farsi](README.md)
+### 🌏 Readme in [English](README.md)
 
 <p align="center">
   <img src="docs/assets/images/Panel.jpg">
