@@ -1,4 +1,4 @@
-<h1 align="center">💦 BPB Panel</h1>
+<h1 align="center">💦 BPB 4-0-4 Panel</h1>
 
 ### 🌏 Readme in [Myanmar](README_mm.md)
 
