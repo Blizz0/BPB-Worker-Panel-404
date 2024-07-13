@@ -1,0 +1,42 @@
+name: Bug Report | Report a problem
+description: Report a bug encountered while using BPB Panel
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Please make sure to provide a descriptive report. It saves time for both the developer and users who are looking for solutions. Providing as much information as possible, including screenshots and logs, is highly appreciated. This will help us to better understand the issue and respond more effectively.
+              Please make sure to provide a descriptive report. This makes the developer and users who are looking for solutions spend less time. Providing more information including screenshots and logs is recommended. This makes us better able to understand the problem and respond better.
+    - type: checkboxes
+      id: confirm-search
+      attributes:
+          label: Attention | Attention
+          description: Please search [existing issues](https://github.com/bia-pain-bache/BPB-Worker-Panel/issues) before reporting | Please review [Available Issues](https://github.com/bia-pain-bache/BPB-Worker-Panel/issues) before submitting a report.
+          options:
+              - label: I searched and no similar issues were found I searched and found no similar reports
+                required: true
+    - type: textarea
+      id: problem
+      attributes:
+          label: What Happened? | what happened?
+          description: |
+              Please provide as much information as possible. Not doing so may result in your bug not being addressed in a timely manner.
+              Please provide complete information. If you do not do this, your problem may be considered closed or not investigated in a timely manner.
+      validations:
+          required: true
+    - type: textarea
+      id: reproduce
+      attributes:
+          label: Minimal Reproducible Example | What process did you go through to see this problem?
+          placeholder: |
+              1. Go to '...'
+              2. Click on '....'
+              3. Scroll down to '....'
+              4. See error
+    - type: textarea
+      id: logs
+      attributes:
+          label: Relevant log output | Application log or panel
+          description: Refer to the program menu and copy the log and send it to us.
+          render: shell
+      validations:
+          required: true
