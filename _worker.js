@@ -1,13 +1,11 @@
 // @ts-nocheck
 // <!--GAMFC-->version base on commit 43fad05dcdae3b723c53c226f8181fc5bd47223e, time is 2023-06-22 15:20:02 UTC<!--GAMFC-END-->.
-// @ts-ignore
-// https://github.com/bia-pain-bache/BPB-Worker-Panel
 
 import { connect } from 'cloudflare:sockets';
 
 // How to generate your own UUID:
 // https://www.uuidgenerator.net/
-let userID = '89b3cbba-e6ac-485a-9481-976a0415eab9';
+let userID = '36195430-ed6a-494c-a1c2-3b3d26700cd7';
 
 // https://www.nslookup.io/domains/cdn.xn--b6gac.eu.org/dns-records/
 // https://www.nslookup.io/domains/cdn-all.xn--b6gac.eu.org/dns-records/
@@ -20,7 +18,106 @@ let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 
 let dohURL = 'https://cloudflare-dns.com/dns-query';
 
-let panelVersion = '2.4.5';
+//let dohURL = 'https://sky.rethinkdns.com/1:-Pf_____9_8A_AMAIgE8kMABVDDmKOHTAKg='; // https://cloudflare-dns.com/dns-query or https://dns.google/dns-query
+
+// Set the preferred address API interface
+let addressesapi = [
+	'https://raw.githubusercontent.com/nyeinkokoaung404/tunnel/main/ipv4.txt', 
+];
+
+// Set the preferred address, the default port number is 443, and TLS subscription generation
+let addresses = [
+	'icook.tw:443#t.me/nkka404',//Official preferred domain name
+	'avval.ir:8443#t.me/nkka404',
+	'alejandracaiccedo.com:443#t.me/nkka404',
+	'api.ip.sb:443#t.me/nkka404',
+	'c.xf.free.hr:2087#t.me/nkka404',
+	'cdn.anycast.eu.org:443#t.me/nkka404',
+	'cdn.kaiche.tk:2096#t.me/nkka404',
+	'cdn-b100.xn--b6gac.eu.org:443#t.me/nkka404',
+	'cf.090227.xyz:2087#t.me/nkka404',
+	'cfip.xxxxxxxx.tk:8443#t.me/nkka404',
+	'cloudflare.cfgo.cc:2053#t.me/nkka404',
+	'edtunnel-dgp.pages.dev:443#t.me/nkka404',
+	'gur.gov.ua:443#t.me/nkka404',
+	'hk.zh141.com:443#t.me/nkka404',
+	'icook.hk:8443#t.me/nkka404',
+	'icook.tw:2096#t.me/nkka404',
+	'ip.sb:443#t.me/nkka404',
+	'iplocation.io:443#t.me/nkka404',
+	'japan.com:443#t.me/nkka404',
+	'log.bpminecraft.com:443#t.me/nkka404',
+	'malaysia.com:443#t.me/nkka404',
+	'russia.com:443#t.me/nkka404',
+	'shopify.com:443#t.me/nkka404',
+	'singapore.com:443#t.me/nkka404',
+	'skk.moe:443#t.me/nkka404',
+	'sp.rweek.top:443#t.me/nkka404',
+	'time.cloudflare.com:443#t.me/nkka404',
+	'time.is:443#t.me/nkka404',
+	'tuic.cc:443#t.me/nkka404',
+	'www.4chan.org:443#t.me/nkka404',
+	'www.baipiao.eu.org:443#t.me/nkka404',
+	'www.boba88slot.com:443#t.me/nkka404',
+	'www.csgo.com:443#t.me/nkka404',
+	'www.d-555.com:443#t.me/nkka404',
+	'www.digitalocean.com:443#t.me/nkka404',
+	'www.gco.gov.qa:443#t.me/nkka404',
+	'www.glassdoor.com:443#t.me/nkka404',
+	'www.gov.se:443#t.me/nkka404',
+	'www.gov.ua:443#t.me/nkka404',
+	'www.hugedomains.com:443#t.me/nkka404',
+	'www.iakeys.com:443#t.me/nkka404',
+	'www.iios.club:443#t.me/nkka404',
+	'www.ikantv.net:443#t.me/nkka404',
+	'www.ipget.net:443#t.me/nkka404',
+	'www.k77kk.cc:443#t.me/nkka404',
+	'www.okcupid.com:443#t.me/nkka404',
+	'www.shopify.com:443#t.me/nkka404',
+	'www.udacity.com:443#t.me/nkka404',
+	'www.udemy.com:443#t.me/nkka404',
+	'www.visa.co.jp:443#t.me/nkka404',
+	'www.visa.com:443#t.me/nkka404',
+	'www.visa.com.hk:443#t.me/nkka404',
+	'www.visa.com.sg:443#t.me/nkka404',
+	'www.visa.com.tw:443#t.me/nkka404',
+	'www.visakorea.com:443#t.me/nkka404',
+	'www.whatismyip.com:443#t.me/nkka404',
+	'www.who.int:443#t.me/nkka404',
+	'www.whoer.net:443#t.me/nkka404',
+	'www.wto.org:443#t.me/nkka404',
+	'www.wuda.cf:443#t.me/nkka404',
+	'www.yhth88.com:443#t.me/nkka404',
+	'www.zsu.gov.ua:443#t.me/nkka404',
+	'xn--b6gac.eu.org:443#t.me/nkka404',
+	'yecaoyun.com:443#t.me/nkka404',
+	//'cloudflare.cfgo.cc:443#YouTube',
+	'visa.com:443#t.me/nkka_404'
+];
+
+let autoaddress = [
+	'icook.tw:443',
+	'cloudflare.cfgo.cc:443',
+	'visa.com:443'
+];
+
+let FileName = 'ansoncloud8.github.io';
+let tagName = 'telegram/@nkka404'
+let SUBUpdateTime = 6;
+let total = 99;//PB
+//let timestamp = now;
+let timestamp = 4102329600000;//2099-12-31
+const regex = /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[.*\]):?(\d+)?#?(.*)?$/;
+
+// Fake uuid and hostname, used to send to the configuration generation service
+let fakeUserID = generateUUID();
+let fakeHostName = generateRandomString();
+
+let sub = 'page-22.freemmvpn.dynv6.net';// Built-in preferred subscription generator, you can build it yourself
+let subconverter = 'url.v1.mk';// Clash subscription conversion backend, currently using Feiyang's subscription conversion function. Comes with fake uuid and host subscription。
+let subconfig = "https://raw.githubusercontent.com/ansoncloud8/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini"; //Subscription Profile
+
+let panelVersion = '2.4.4';
 
 if (!isValidUUID(userID)) {
     throw new Error('uuid is not valid');
@@ -34,11 +131,27 @@ export default {
      * @returns {Promise<Response>}
      */
     async fetch(request, env, ctx) {
-        try {
-            
-            userID = env.UUID || userID;
-            proxyIP = env.PROXYIP || proxyIP;
-            dohURL = env.DNS_RESOLVER_URL || dohURL;
+		// uuid_validator(request);
+		try {
+			let expire = Math.floor(timestamp / 1000);
+			let UD = Math.floor(((timestamp - Date.now()) / timestamp * 99 * 1099511627776 * 1024) / 2);
+			const url = new URL(request.url);
+			const uuid = url.searchParams.get('uuid') ? url.searchParams.get('uuid').toLowerCase() : "null";
+
+			sub = env.SUB || sub;
+			userID = env.UUID || userID;
+			proxyIP = env.PROXYIP || proxyIP;
+			dohURL = env.DNS_RESOLVER_URL || dohURL;
+			let userID_Path = userID;
+			if (userID.includes(',')) {
+				userID_Path = userID.split(',')[0];
+			}
+
+			if (env.ADDRESSESAPI){
+				addressesapi = [];
+				addressesapi = await ADD(env.ADDRESSESAPI);
+			}
+			
             const upgradeHeader = request.headers.get('Upgrade');
             
             if (!upgradeHeader || upgradeHeader !== 'websocket') {
@@ -57,7 +170,108 @@ export default {
                                 'Content-Type': 'application/json;charset=utf-8',
                             },
                         });
-                        
+
+                    case `/404`: {
+						const vlessConfig = getVLESSConfig(userID, request.headers.get('Host'));
+						return new Response(`${vlessConfig}`, {
+							status: 200,
+							headers: {
+								"Content-Type": "text/html; charset=utf-8",
+							}
+						});
+					};
+		     case `/bestip/${uuid}`: {
+						const newAddressesapi = await getAddressesapi(addressesapi);
+						// const vlessSubConfig = createVlessBestIpSub(userID, request.headers.get('Host'), newAddressesapi,'format');
+						//拿随机
+						fakeUserID = uuid;
+						fakeHostName = url.searchParams.get('host') ? url.searchParams.get('host').toLowerCase() : request.headers.get('Host');
+						const format = url.searchParams.get('format') ? url.searchParams.get('format').toLowerCase() : "null";
+						const vlessSubConfig = createVlessBestIpSub(fakeUserID, fakeHostName, newAddressesapi, format);
+						const btoa_not = url.searchParams.get('btoa') ? url.searchParams.get('btoa').toLowerCase() : null;
+						
+					    if (btoa_not === 'btoa') {
+							return new Response(vlessSubConfig, {
+								status: 200,
+								headers: {
+									"Content-Type": "text/plain;charset=utf-8",
+								}
+							});
+						}else {
+							const base64Response = btoa(vlessSubConfig); // 重新进行 Base64 编码
+							const response = new Response(base64Response, {
+								headers: {
+									// "Content-Disposition": `attachment; filename*=utf-8''${encodeURIComponent(FileName)}; filename=${FileName}`,
+									"content-type": "text/plain; charset=utf-8",
+									"Profile-Update-Interval": `${SUBUpdateTime}`,
+									"Subscription-Userinfo": `upload=${UD}; download=${UD}; total=${total}; expire=${expire}`,
+								},
+							});
+							return response;
+						}
+					};
+					case `/sub/bestip/${userID_Path}`: {
+						const tls = true;
+						// 如果是使用默认域名，则改成一个workers的域名，订阅器会加上代理
+						const hostName = request.headers.get('Host');
+						const userAgentHeader = request.headers.get('User-Agent');
+						const userAgent = userAgentHeader ? userAgentHeader.toLowerCase() : "null";
+						const format = url.searchParams.get('format') ? url.searchParams.get('format').toLowerCase() : "null";
+						if (hostName.includes(".workers.dev")) {
+							fakeHostName = `${fakeHostName}.${generateRandomString()}${generateRandomNumber()}.workers.dev`;
+						} else if (hostName.includes(".pages.dev")) {
+							fakeHostName = `${fakeHostName}.${generateRandomString()}${generateRandomNumber()}.pages.dev`;
+						} else if (hostName.includes("worker") || hostName.includes("notls") || tls == false) {
+							fakeHostName = `notls.${fakeHostName}${generateRandomNumber()}.net`;
+						} else {
+							fakeHostName = `${fakeHostName}.${generateRandomNumber()}.xyz`
+						}
+						let content = "";
+						let suburl = "";
+						let isBase64 = false;
+						if ((userAgent.includes('clash') && !userAgent.includes('nekobox')) || format === 'clash') {
+							suburl = `https://${subconverter}/sub?target=clash&url=https%3A%2F%2F${hostName}/bestip/${fakeUserID}%3Fhost%3D${fakeHostName}%26uuid%3D${fakeUserID}&insert=false&config=${encodeURIComponent(subconfig)}%26proxyip%3D${proxyIP}&emoji=true&list=false&tfo=false&scv=true&fdn=false&sort=false&new_name=true`;
+						} else if ((userAgent.includes('sing-box') || userAgent.includes('singbox')) || format === 'singbox') {
+							suburl = `https://${subconverter}/sub?target=singbox&url=https%3A%2F%2F${hostName}/bestip/${fakeUserID}%3Fhost%3D${fakeHostName}%26uuid%3D${fakeUserID}&insert=false&config=${encodeURIComponent(subconfig)}%26proxyip%3D${proxyIP}&emoji=true&list=false&tfo=false&scv=true&fdn=false&sort=false&new_name=true`;
+						} else if (format === 'qx') {
+							const newAddressesapi = await getAddressesapi(addressesapi);
+							const vlessSubConfig = createVlessBestIpSub(userID, request.headers.get('Host'), newAddressesapi, format);
+							return new Response(vlessSubConfig, {
+								headers: {
+									// "Content-Disposition": `attachment; filename*=utf-8''${encodeURIComponent(FileName)}; filename=${FileName}`,
+									"content-type": "text/plain; charset=utf-8",
+									"Profile-Update-Interval": `${SUBUpdateTime}`,
+									"Subscription-Userinfo": `upload=${UD}; download=${UD}; total=${total}; expire=${expire}`,
+								},
+							});
+						} else {
+							suburl = `https://${sub}/bestip/${fakeUserID}?host=${fakeHostName}&uuid=${fakeUserID}&proxyip=${proxyIP}`;
+							isBase64 = true;
+						}
+						try {
+							const response = await fetch(suburl, {
+								headers: {
+									'User-Agent': 'ansoncloud8.github.io'
+								}
+							});
+							content = await response.text();
+							const result = revertFakeInfo(content, userID_Path, hostName, isBase64);
+
+							// content.replace(new RegExp(fakeUserID, 'g'), userID)
+							return new Response(result, {
+								headers: {
+									// "Content-Disposition": `attachment; filename*=utf-8''${encodeURIComponent(FileName)}; filename=${FileName}`,
+									"content-type": "text/plain; charset=utf-8",
+									"Profile-Update-Interval": `${SUBUpdateTime}`,
+									"Subscription-Userinfo": `upload=${UD}; download=${UD}; total=${total}; expire=${expire}`,
+								},
+							});
+						} catch (error) {
+							console.error('Error fetching content:', error);
+							return `Error fetching content: ${error.message}`;
+						}
+					};
+					
                     case `/sub/${userID}`:
 
                         if (client === 'sfa') {
@@ -200,7 +414,7 @@ export default {
 
                     default:
                         // return new Response('Not found', { status: 404 });
-                        url.hostname = 'www.speedtest.net';
+                        url.hostname = 'iam404.serv00.net';
                         url.protocol = 'https:';
                         request = new Request(url, request);
                         return await fetch(request);
@@ -497,9 +711,9 @@ function processVlessHeader(vlessBuffer, userID) {
 		vlessBuffer.slice(addressIndex, addressIndex + 1)
 	);
 
-	// 1--> ipv4  addressLength =4
-	// 2--> domain name addressLength=addressBuffer[1]
-	// 3--> ipv6  addressLength =16
+	// 1–> ipv4  addressLength =4
+	// 2–> domain name addressLength=addressBuffer[1]
+	// 3–> ipv6  addressLength =16
 	const addressType = addressBuffer[0];
 	let addressLength = 0;
 	let addressValueIndex = addressIndex + 1;
@@ -770,12 +984,451 @@ async function handleUDPOutBound(webSocket, vlessResponseHeader, log) {
 	};
 }
 
+async function ADD(envadd) {
+	var addtext = envadd.replace(/[	|"'\r\n]+/g, ',').replace(/,+/g, ',');	// Replace spaces, double quotes, single quotes, and newline characters with commas
+	//console.log(addtext);
+	if (addtext.charAt(0) == ',') addtext = addtext.slice(1);
+	if (addtext.charAt(addtext.length - 1) == ',') addtext = addtext.slice(0, addtext.length - 1);
+	const add = addtext.split(',');
+	// console.log(add);
+	return add;
+}
+
+async function getAddressesapi(api) {
+	if (!api || api.length === 0) {
+		return [];
+	}
+
+	let newapi = "";
+
+	// Create an AbortController object to control the cancellation of the fetch request
+	const controller = new AbortController();
+
+	const timeout = setTimeout(() => {
+		controller.abort(); // Cancel all requests
+	}, 2000); // Triggered after 2 seconds
+
+	try {
+		// Use Promise.allSettled to wait for all API requests to complete, regardless of success or failure
+// Traverse the api array and initiate a fetch request for each API address
+		const responses = await Promise.allSettled(api.map(apiUrl => fetch(apiUrl, {
+			method: 'get',
+			headers: {
+				'Accept': 'text/html,application/xhtml+xml,application/xml;',
+				'User-Agent': 'ansoncloud8.github.io'
+			},
+			signal: controller.signal // Add an AbortController semaphore to the fetch request so that the request can be canceled if needed.
+		}).then(response => response.ok ? response.text() : Promise.reject())));
+
+		// Iterate through all responses
+		for (const response of responses) {
+			// Check if the response status is'fulfilled'，The request is completed successfully
+			if (response.status === 'fulfilled') {
+				// Get the content of the response
+				const content = await response.value;
+				newapi += content + '\n';
+			}
+		}
+	} catch (error) {
+		console.error(error);
+	} finally {
+		// Regardless of success or failure, the set timeout timer is cleared at the end
+		clearTimeout(timeout);
+	}
+
+	const newAddressesapi = await ADD(newapi);
+
+	// Return the processed result
+	return newAddressesapi;
+}
+
+
+function generateRandomString() {
+	let minLength = 2;
+	let maxLength = 3;
+	let length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+	let characters = 'abcdefghijklmnopqrstuvwxyz';
+	let result = '';
+	for (let i = 0; i < length; i++) {
+		result += characters[Math.floor(Math.random() * characters.length)];
+	}
+	return result;
+}
+
+function generateUUID() {
+	let uuid = '';
+	for (let i = 0; i < 32; i++) {
+		let num = Math.floor(Math.random() * 16);
+		if (num < 10) {
+			uuid += num;
+		} else {
+			uuid += String.fromCharCode(num + 55);
+		}
+	}
+	return uuid.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5').toLowerCase();
+}
+
+function generateRandomNumber() {
+	let minNum = 100000;
+	let maxNum = 999999;
+	return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+}
+
+function revertFakeInfo(content, userID, hostName, isBase64) {
+	if (isBase64) content = atob(content);//Base64coding
+	content = content.replace(new RegExp(fakeUserID, 'g'), userID).replace(new RegExp(fakeHostName, 'g'), hostName);
+	if (isBase64) content = btoa(content);//Base64coding
+	return content;
+}
+
 /**
  *
- * @param {string} userID
+ * @param {string} userID🤪🤪😍♻️😛
  * @param {string | null} hostName
  * @returns {string}
  */
+function getVLESSConfig(userIDs, hostName) {
+	const commonUrlPart = `:443?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#${hostName}`;
+	const hashSeparator = "################################################################";
+
+	// Split the userIDs into an array
+	const userIDArray = userIDs.split(",");
+
+	// Prepare output string for each userID
+	const output = userIDArray.map((userID) => {
+		const vlessMain = 'vless://' + userID + '@' + hostName + commonUrlPart;
+		const vlessSec = 'vless://' + userID + '@' + proxyIP + commonUrlPart;
+		return `################################################################
+Telegram Channel! ==> t.me/nkka_404
+---------------------------------------------------------------
+Contact to developer ==> t.me/nkka404
+---------------------------------------------------------------
+Developed script by 4̷-◉-4̷
+################################################################
+<h2>UUID: ${userID}</h2>
+<button onclick='copyToClipboard("${userID}")'><i class="fa fa-clipboard"></i> Copy UUID</button>
+---------------------------------------------------------------
+💠V2ray Default IP💠
+---------------------------------------------------------------
+${vlessMain}
+<button onclick='copyToClipboard("${vlessMain}")'><i class="fa fa-clipboard"></i> Copy VlessMain</button>
+---------------------------------------------------------------
+💠V2ray With Best IP💠
+---------------------------------------------------------------
+${vlessSec}
+<button onclick='copyToClipboard("${vlessSec}")'><i class="fa fa-clipboard"></i> Copy VlessSec</button>
+---------------------------------------------------------------
+💠Clash-Meta💠
+---------------------------------------------------------------
+- type: vless
+  name: ${hostName}
+  server: ${hostName}
+  port: 443
+  uuid: ${userID}
+  network: ws
+  tls: true
+  udp: false
+  sni: ${hostName}
+  client-fingerprint: chrome
+  ws-opts:
+  path: "/?ed=2048"
+  headers:
+  host: ${hostName}
+---------------------------------------------------------------
+################################################################
+`;
+	}).join('\n');
+	const sublink = `https://${hostName}/sub/${userIDArray[0]}`
+	const subbestip = `https://${hostName}/bestip/${userIDArray[0]}?uuid=${userIDArray[0]}`;
+	const singboxlink = `https://${hostName}/sub/bestip/${userIDArray[0]}?format=singbox&uuid=${fakeUserID}`;
+	const quantumultxlink = `https://${hostName}/sub/bestip/${userIDArray[0]}?format=qx&uuid=${fakeUserID}`;
+	const clashlink = `https://${hostName}/sub/bestip/${userIDArray[0]}?format=clash&uuid=${fakeUserID}`;
+	// Prepare header string
+
+	// Prepare header string
+	const header = `
+<p align='center'><img src='https://github.com/nyeinkokoaung404/onlyforyou/blob/480a5b3bcc7f7862c6a1f69a61c34f4b9bf4dcdf/assets/onlyforyouall.png?raw=true' alt='' width="150" height="150" style='margin-bottom: -0px;'>
+<b style='font-size: 15px;'>Welcome! This function generates configuration for 404 protocol. If you found this useful, please join our Telegram channel for more:</b><br>
+<b style='font-size: 15px;'>ONLY/:FORYOU&ALL</b>
+<a href='https://t.me/Pmttg' style="color: #fff;font-size: 15px;background-color: #5cb85c;" target='_blank'>Click To Join Telegram Channel</a>
+<b style='font-size: 15px;'>Welcome! This is the configuration to generate the VLESS protocol. If you find this project useful, please check out our GitHub project and give me a star：</b>
+<a href='https://github.com/nyeinkokoaung404' target='_blank'>4̷-◉-4̷</a>
+<a href='//${hostName}/sub/${userIDArray[0]}' target='_blank'>VLESSNode subscription connection(v2rayU、v2rayNTools)Automatic generated</a> <button onclick='copyToClipboard("${sublink}")'><i class="fa fa-clipboard"></i> Copy</button>
+<a href='${subbestip}' target='_blank'>VLESSNode subscription connection(v2rayU、v2rayNTools)BestIP</a> <button onclick='copyToClipboard("${subbestip}")'><i class="fa fa-clipboard"></i> Copy</button>
+<a href='clash://install-config?url=${encodeURIComponent(`https://${hostName}/sub/${userIDArray[0]}?format=clash`)}}' target='_blank'>Clash Node subscription connection(clash-verge-rev、openclashTools)Automatic generated</a> <button onclick='copyToClipboard("${clashlink}")'><i class="fa fa-clipboard"></i> Copy</button>
+<a href='clash://install-config?url=${encodeURIComponent(subbestip)}' target='_blank'>ClashNode subscription connection(clash-verge-rev、openclashTools)BestIP</a> <button onclick='copyToClipboard("${clashlink}")'><i class="fa fa-clipboard"></i> Copy</button>
+<a href='sing-box://import-remote-profile?url=${encodeURIComponent(subbestip)}' target='_blank'>(sin-boxtool)Node subscription connection optimizationIP</a> <button onclick='copyToClipboard("${singboxlink}")'><i class="fa fa-clipboard"></i> Copy</button>
+<a href='${quantumultxlink}' target='_blank'>(Quantumult Xtool)Node subscription connection optimizationIP</a> <button onclick='copyToClipboard("${quantumultxlink}")'><i class="fa fa-clipboard"></i> Copy</button>
+<a href='sn://subscription?url=${encodeURIComponent(subbestip)}' target='_blank'>nekoboxNode subscription connection optimizationIP</a>
+</p>`;
+	// HTML Head with CSS and FontAwesome library
+	const htmlHead = `
+  <head>
+	<title>tunnel: VLESS configuration</title>
+	<meta name='description' content='This is a tool for generating VLESS protocol configurations. Give us a star on GitHub https://ansoncloud8.github.io if you found it useful!'>
+	<style>
+	body {
+	  font-family: Arial, sans-serif;
+	  background-color: #f0f0f0;
+	  color: #333;
+	  padding: 10px;
+	}
+
+	a {
+	  color: #1a0dab;
+	  text-decoration: none;
+	}
+	img {
+	  max-width: 100%;
+	  height: auto;
+	}
+
+	pre {
+	  white-space: pre-wrap;
+	  word-wrap: break-word;
+	  background-color: #fff;
+	  border: 1px solid #ddd;
+	  padding: 10px;
+	  margin: 10px 0;
+	}
+	/* Dark mode */
+	@media (prefers-color-scheme: dark) {
+	  body {
+		background-color: #333;
+		color: #f0f0f0;
+	  }
+
+	  a {
+		color: #9db4ff;
+	  }
+
+	  pre {
+		background-color: #282a36;
+		border-color: #6272a4;
+	  }
+	}
+	</style>
+
+	<!-- Add FontAwesome library -->
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+  </head>
+  `;
+
+	// Join output with newlines, wrap inside <html> and <body>
+	return `
+  <html>
+  ${htmlHead}
+  <body>
+  <pre style='background-color: transparent; border: none;'>${header}</pre>
+  <pre>${output}</pre>
+  </body>
+  <script>
+	function copyToClipboard(text) {
+	  navigator.clipboard.writeText(text)
+		.then(() => {
+		  alert("Copied to clipboard 🤪");
+		})
+		.catch((err) => {
+		  console.error("Failed to copy to clipboard:", err);
+		});
+	}
+  </script>
+  </html>`;
+}
+
+let portSet_http = new Set([80, 8080, 8880, 2052, 2086, 2095, 2082]);
+let portSet_https = new Set([443, 8443, 2053, 2096, 2087, 2083]);
+
+function createVLESSSub(userID_Path, hostName, format, dq) {
+	const userIDArray = userID_Path.includes(',') ? userID_Path.split(',') : [userID_Path];
+	const commonUrlPart_http = `?encryption=none&security=none&fp=random&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#`;
+	const commonUrlPart_https = `?encryption=none&security=tls&sni=${hostName}&fp=random&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#`;
+	//trojan
+	const trojan_http = `?alpn=http%2F1.1&security=none&fp=random&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#`;
+	const trojan_https = `?alpn=http%2F1.1&security=tls&sni=${hostName}&fp=random&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#`;
+//const trojanLink = `trojan://${密码}@${address}:${port}?security=tls&sni=${sni}&alpn=http%2F1.1&fp=randomized&type=ws&host=${伪装域名}&path=${encodeURIComponent(最终路径)}#${encodeURIComponent(addressid + 节点备注)}`;
+
+	const output = userIDArray.flatMap((userID) => {
+		if (format === 'qx') {
+			var host = hostName.split('.').slice(1).join('.');
+			const httpsConfigurations = Array.from(portSet_https).flatMap((port) => {
+				if(dq){
+					let tag = '📶 CF_' + port;
+					//🇸🇬 SG：စင်္ကာပူ 🇭🇰 HK：ဟောင်ကောင် 🇰🇷 KR：တောင်ကိုရီးယား 🇯🇵 JP：ဂျပန် 🇬🇧 GB：ယူကေ 🇺🇸 US：ယူအက်စ်အေ 🇼🇸 TW：ထိုင်ဝမ်
+					if (dq === 'SG') {
+						tag = '🇸🇬 SG_' + port;
+					} else if (dq === 'HK') {
+						tag = '🇭🇰 HK_' + port;
+					} else if (dq === 'KR') {
+						tag = '🇰🇷 KR_' + port;
+					} else if (dq === 'JP') {
+						tag = '🇯🇵 JP_' + port;
+					} else if (dq === 'GB') {
+						tag = '🇬🇧 GB_' + port;
+					} else if (dq === 'US') {
+						tag = '🇺🇸 US_' + port;
+					} else if (dq === 'TW') {
+						tag = '🇼🇸 TW_' + port;
+					} 
+					const sgHttps = 'vless=' + dq.toLowerCase() + '.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=' + tag;
+					return [sgHttps];
+				}
+				const sgHttps = 'vless=sg.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=🇸🇬 SG_' + port;
+				const hkHttps = 'vless=hk.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=🇭🇰 HK_' + port;
+				const krHttps = 'vless=kr.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=🇰🇷 KR_' + port;
+				const jpHttps = 'vless=jp.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=🇯🇵 JP_' + port;
+				const usHttps = 'vless=us.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=🇺🇸 US_' + port;
+				const twHttps = 'vless=tw.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=🇼🇸 TW_' + port;
+				const cfHttps = 'vless=cf.' + port + '.' + host + ':' + port + ',method=none,password=' + userID + ',obfs=wss,obfs-uri=/?ed=2048,obfs-host=' + hostName + ',tls-verification=true,tls-host=' + hostName + ',fast-open=false,udp-relay=false,tag=📶 CF_' + port;
+				return [sgHttps, hkHttps, krHttps, jpHttps, usHttps, twHttps, cfHttps];
+			});
+			
+			return [...httpsConfigurations];
+		} else if (format === 'trojan') {
+			const httpConfigurations = Array.from(portSet_http).flatMap((port) => {
+				if (!hostName.includes('pages.dev')) {
+					const urlPart = tagName + ` (${hostName}-HTTP-${port})`;
+					const vlessMainHttp = 'trojan://' + userID + '@' + hostName + ':' + port + trojan_http + urlPart;
+					return autoaddress.flatMap((proxyIP) => {
+						const vlessSecHttp = 'trojan://' + userID + '@' + proxyIP + ':' + port + trojan_https + urlPart + '-' + proxyIP;
+						return [vlessMainHttp, vlessSecHttp];
+					});
+				}
+				return [];
+			});
+
+			const httpsConfigurations = Array.from(portSet_https).flatMap((port) => {
+				const urlPart = tagName + ` (${hostName}-HTTPS-${port})`;
+				const vlessMainHttps = 'trojan://' + userID + '@' + hostName + ':' + port + trojan_http + urlPart;
+				return autoaddress.flatMap((proxyIP) => {
+					const vlessSecHttps = 'trojan://' + userID + '@' + proxyIP + ':' + port + trojan_https + urlPart + '-' + proxyIP;
+					return [vlessMainHttps, vlessSecHttps];
+				});
+			});
+
+			return [...httpConfigurations, ...httpsConfigurations];
+			
+		}else {
+			const httpConfigurations = Array.from(portSet_http).flatMap((port) => {
+				if (!hostName.includes('pages.dev')) {
+					const urlPart = tagName + ` (${hostName}-HTTP-${port})`;
+					const vlessMainHttp = 'vless://' + userID + '@' + hostName + ':' + port + commonUrlPart_http + urlPart;
+					return autoaddress.flatMap((proxyIP) => {
+						const vlessSecHttp = 'vless://' + userID + '@' + proxyIP + ':' + port + commonUrlPart_http + urlPart + '-' + proxyIP;
+						return [vlessMainHttp, vlessSecHttp];
+					});
+				}
+				return [];
+			});
+
+			const httpsConfigurations = Array.from(portSet_https).flatMap((port) => {
+				const urlPart = tagName + ` (${hostName}-HTTPS-${port})`;
+				const vlessMainHttps = 'vless://' + userID + '@' + hostName + ':' + port + commonUrlPart_https + urlPart;
+				return autoaddress.flatMap((proxyIP) => {
+					const vlessSecHttps = 'vless://' + userID + '@' + proxyIP + ':' + port + commonUrlPart_https + urlPart + '-' + proxyIP;
+					return [vlessMainHttps, vlessSecHttps];
+				});
+			});
+
+			return [...httpConfigurations, ...httpsConfigurations];
+		}
+	});
+
+	return output.join('\n');
+}
+
+function createVlessBestIpSub(userID_Path, hostName, newAddressesapi, format) {
+
+	addresses = addresses.concat(newAddressesapi);
+	// Use Set object to remove duplicates
+	const uniqueAddresses = [...new Set(addresses)];
+
+	const responseBody = uniqueAddresses.map((address, i) => {
+		let port = "443";
+		let addressid = address;
+		let dq = tagName;
+
+		const match = addressid.match(regex);
+		if (!match) {
+			if (address.includes(':') && address.includes('#')) {
+				const parts = address.split(':');
+				address = parts[0];
+				const subParts = parts[1].split('#');
+				port = subParts[0];
+				addressid = subParts[1];
+			} else if (address.includes(':')) {
+				const parts = address.split(':');
+				address = parts[0];
+				port = parts[1];
+			} else if (address.includes('#')) {
+				const parts = address.split('#');
+				address = parts[0];
+				addressid = parts[1];
+			}
+
+			if (addressid.includes(':')) {
+				addressid = addressid.split(':')[0];
+			}
+		} else {
+			address = match[1];
+			port = match[2] || port;
+			addressid = match[3] || address;
+		}
+		dq = addressid + '_' + i;
+		//🇸🇬 SG: Singapore 🇭🇰 HK: Hong Kong 🇰🇷 KR: South Korea 🇯🇵 JP: Japan 🇬🇧 GB: United Kingdom 🇺🇸 US: United States 🇼🇸 TW: Taiwan
+		if (addressid.includes('AM')) {
+			addressid = addressid;
+			dq = addressid;
+		} else if (addressid === 'SG') {
+			addressid = '🇸🇬 SG_' + i;
+		} else if (addressid === 'HK') {
+			addressid = '🇭🇰 HK_' + i;
+		} else if (addressid === 'KR') {
+			addressid = '🇰🇷 KR_' + i;
+		} else if (addressid === 'JP') {
+			addressid = '🇯🇵 JP_' + i;
+		} else if (addressid === 'GB') {
+			addressid = '🇬🇧 GB_' + i;
+		} else if (addressid === 'US') {
+			addressid = '🇺🇸 US_' + i;
+		} else if (addressid === 'TW') {
+			addressid = '🇼🇸 TW_' + i;
+		} else if (addressid === 'CF') {
+			addressid = '📶 ' + addressid + '_' + i;
+		} else {
+			addressid = '📶 ' + addressid + '_' + i;
+			dq = tagName;
+		}
+		
+		let vlessLink = `vless://${userID_Path}@${address}:${port}?encryption=none&security=tls&sni=${hostName}&fp=random&type=ws&host=${hostName}&path=&path=%2F%3Fed%3D2048#${dq}`;
+		if (port === '80' || port === '8080' || port === '8880' || port === '2052' || port === '2086' || port === '2095' || port === '2082' ) {
+			vlessLink = `vless://${userID_Path}@${address}:${port}?encryption=none&security=&fp=random&type=ws&host=${hostName}&path=&path=%2F%3Fed%3D2048#${dq}`;
+		}
+		
+		if (format === 'qx') {
+			//80, 8080, 8880, 2052, 2086, 2095, 2082
+			//443, 8443, 2053, 2096, 2087, 2083
+			if (port === '80' || port === '8080' || port === '8880' || port === '2052' || port === '2086' || port === '2095' || port === '2082' ) {
+				vlessLink = `vless=${address}:${port},method=none,password=${userID_Path},obfs=ws,obfs-uri=/?ed=2048,obfs-host=${hostName},fast-open=false,udp-relay=false,tag=${addressid}`;
+			}else{
+				vlessLink = `vless=${address}:${port},method=none,password=${userID_Path},obfs=wss,obfs-uri=/?ed=2048,obfs-host=${hostName},tls-verification=true,tls-host=${hostName},fast-open=false,udp-relay=false,tag=${addressid}`;
+			}
+		}
+		//trojan
+		if (format === 'trojan') {
+			if (port === '80' || port === '8080' || port === '8880' || port === '2052' || port === '2086' || port === '2095' || port === '2082' ) {
+				vlessLink = `trojan://${userID_Path}@${address}:${port}?alpn=http%2F1.1&security=tls&sni=${hostName}&fp=random&type=ws&host=${hostName}&path=&path=%2F%3Fed%3D2048#${dq}`;
+			}else{
+				vlessLink = `trojan://${userID_Path}@${address}:${port}?alpn=http%2F1.1&security=&fp=random&type=ws&host=${hostName}&path=&path=%2F%3Fed%3D2048#${dq}`;
+			}
+		}
+		
+
+		return vlessLink;
+	}).join('\n');
+	return responseBody;
+}
+//Nyein-Ko-Ko-Aung
 
 const getNormalConfigs = async (env, hostName, client) => {
     let proxySettings = {};
@@ -1190,8 +1843,6 @@ const getFragmentConfigs = async (env, hostName, client) => {
 
 const getSingboxConfig = async (env, hostName) => {
     let proxySettings = {};
-    let outboundDomains = [];
-    const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]{1,63}\.)*[a-zA-Z0-9][a-zA-Z0-9-]{0,62}\.[a-zA-Z]{2,11}$/;
     
     try {
         proxySettings = await env.bpb.get("proxySettings", {type: 'json'});
@@ -1230,11 +1881,8 @@ const getSingboxConfig = async (env, hostName) => {
             config.outbounds.push(outbound);
             config.outbounds[0].outbounds.push(remark);
             config.outbounds[1].outbounds.push(remark);
-            if (domainRegex.test(outbound.server)) outboundDomains.push(outbound.server);
         });
     });
-
-    config.dns.rules[0].domain = [...new Set(outboundDomains)];
 
     return config;
 }
@@ -1246,8 +1894,6 @@ const getWarpConfigs = async (env, client) => {
     let xrayWarpBestPing = structuredClone(xrayConfigTemp);
     let xrayWoWConfigTemp = structuredClone(xrayConfigTemp);
     let singboxWarpConfig = structuredClone(singboxConfigTemp);
-    let outboundDomains = [];
-    const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]{1,63}\.)*[a-zA-Z0-9][a-zA-Z0-9-]{0,62}\.[a-zA-Z]{2,11}$/;
     
     try {
         proxySettings = await env.bpb.get("proxySettings", {type: 'json'});
@@ -1272,7 +1918,7 @@ const getWarpConfigs = async (env, client) => {
     xrayWarpBestPing.dns = await buildDNSObject(remoteDNS, localDNS, blockAds, bypassIran, blockPorn);
     xrayWarpBestPing.routing.rules = buildRoutingRules(localDNS, blockAds, bypassIran, blockPorn, bypassLAN, false, true);
     xrayWarpBestPing.outbounds.splice(0,1);
-    xrayWarpBestPing.routing.balancers[0].selector = ['warp'];
+    xrayWarpBestPing.routing.balancers[0].selector = 'warp';
     xrayWarpBestPing.observatory.subjectSelector = ['warp'];
     xrayWoWConfigTemp.dns = await buildDNSObject(remoteDNS, localDNS, blockAds, bypassIran, blockPorn);
     xrayWoWConfigTemp.routing.rules = buildRoutingRules(localDNS, blockAds, bypassIran, blockPorn, bypassLAN, false, false);
@@ -1305,18 +1951,14 @@ const getWarpConfigs = async (env, client) => {
         singboxWarpConfig.outbounds.push(outbound);
         singboxWarpConfig.outbounds[0].outbounds.push(outbound.tag);
         singboxWarpConfig.outbounds[1].outbounds.push(outbound.tag);
-        if (domainRegex.test(outbound.server)) outboundDomains.push(outbound.server);
     });
 
     singboxWoWOutbounds.forEach((outbound, index) => {
         if (outbound.tag.includes('WoW')) {
             singboxWarpConfig.outbounds.push(singboxWoWOutbounds[index], singboxWoWOutbounds[index + 1]);
             singboxWarpConfig.outbounds[0].outbounds.push(outbound.tag);
-            if (domainRegex.test(outbound.server)) outboundDomains.push(outbound.server);
         }
     });
-    
-    singboxWarpConfig.dns.rules[0].domain = [...new Set(outboundDomains)]; 
 
     return client === 'singbox' 
         ? singboxWarpConfig 
@@ -1487,12 +2129,12 @@ const buildDNSObject = async (remoteDNS, localDNS, blockAds, bypassIran, blockPo
     }
 
     if (blockAds) {
-        dnsObject.hosts["geosite:category-ads-all"] = ["127.0.0.1"];
-        dnsObject.hosts["geosite:category-ads-ir"] = ["127.0.0.1"];
+        dnsObject.hosts["geosite:category-ads-all"] = "127.0.0.1";
+        dnsObject.hosts["geosite:category-ads-ir"] = "127.0.0.1";
     }
 
     if (blockPorn) {
-        dnsObject.hosts["geosite:category-porn"] = ["127.0.0.1"];
+        dnsObject.hosts["geosite:category-porn"] = "127.0.0.1";
     }
 
     if (!bypassIran || localDNS === 'localhost' || isWorkerLess) {
@@ -1595,25 +2237,24 @@ const updateDataset = async (env, Settings) => {
     }
 
     const vlessConfig = Settings?.get('outProxy');
-
     const proxySettings = {
-        remoteDNS: Settings ? Settings.get('remoteDNS') : currentProxySettings?.remoteDNS || 'https://94.140.14.14/dns-query',
-        localDNS: Settings ? Settings.get('localDNS') : currentProxySettings?.localDNS || '8.8.8.8',
-        lengthMin: Settings ? Settings.get('fragmentLengthMin') : currentProxySettings?.lengthMin || '100',
-        lengthMax: Settings ? Settings.get('fragmentLengthMax') : currentProxySettings?.lengthMax || '200',
-        intervalMin: Settings ? Settings.get('fragmentIntervalMin') : currentProxySettings?.intervalMin || '5',
-        intervalMax: Settings ? Settings.get('fragmentIntervalMax') : currentProxySettings?.intervalMax || '10',
-        blockAds: Settings ? Settings.get('block-ads') : currentProxySettings?.blockAds || false,
-        bypassIran: Settings ? Settings.get('bypass-iran') : currentProxySettings?.bypassIran || false,
-        blockPorn: Settings ? Settings.get('block-porn') : currentProxySettings?.blockPorn || false,
-        bypassLAN: Settings ? Settings.get('bypass-lan') : currentProxySettings?.bypassLAN || false,
-        cleanIPs: Settings ? Settings.get('cleanIPs')?.replaceAll(' ', '') : currentProxySettings?.cleanIPs || '',
-        proxyIP: Settings ? Settings.get('proxyIP') : currentProxySettings?.proxyIP || '',
-        ports: Settings ? Settings.getAll('ports[]') : currentProxySettings?.ports || ['443'],
-        outProxy: Settings ? vlessConfig : currentProxySettings?.outProxy || '',
+        remoteDNS: Settings?.get('remoteDNS') || currentProxySettings?.remoteDNS || 'https://94.140.14.14/dns-query',
+        localDNS: Settings?.get('localDNS') || currentProxySettings?.localDNS || '8.8.8.8',
+        lengthMin: Settings?.get('fragmentLengthMin') || currentProxySettings?.lengthMin || '100',
+        lengthMax: Settings?.get('fragmentLengthMax') || currentProxySettings?.lengthMax || '200',
+        intervalMin: Settings?.get('fragmentIntervalMin') || currentProxySettings?.intervalMin || '5',
+        intervalMax: Settings?.get('fragmentIntervalMax') || currentProxySettings?.intervalMax || '10',
+        blockAds: Settings?.get('block-ads') || currentProxySettings?.blockAds || false,
+        bypassIran: Settings?.get('bypass-iran') || currentProxySettings?.bypassIran || false,
+        blockPorn: Settings?.get('block-porn') || currentProxySettings?.blockPorn || false,
+        bypassLAN: Settings?.get('bypass-lan') || currentProxySettings?.bypassLAN || false,
+        cleanIPs: Settings?.get('cleanIPs')?.replaceAll(' ', '') || currentProxySettings?.cleanIPs || '',
+        proxyIP: Settings?.get('proxyIP') || currentProxySettings?.proxyIP || '',
+        ports: Settings?.getAll('ports[]') || currentProxySettings?.ports || ['443'],
+        outProxy: vlessConfig || currentProxySettings?.outProxy || '',
         outProxyParams: vlessConfig ? await extractVlessParams(vlessConfig) : currentProxySettings?.outProxyParams || '',
-        wowEndpoint: Settings ? Settings.get('wowEndpoint')?.replaceAll(' ', '') : currentProxySettings?.wowEndpoint || 'engage.cloudflareclient.com:2408',
-        warpEndpoints: Settings ? Settings.get('warpEndpoints')?.replaceAll(' ', '') : currentProxySettings?.warpEndpoints || 'engage.cloudflareclient.com:2408',
+        wowEndpoint: Settings?.get('wowEndpoint')?.replaceAll(' ', '') || currentProxySettings?.wowEndpoint || 'engage.cloudflareclient.com:2408',
+        warpEndpoints: Settings?.get('warpEndpoints')?.replaceAll(' ', '') || currentProxySettings?.warpEndpoints || 'engage.cloudflareclient.com:2408',
         panelVersion: panelVersion
     };
 
@@ -1790,7 +2431,7 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
             let id = `port-${port}`;
             let portBlock = `
                 <div class="routing" style="grid-template-columns: 1fr 2fr; margin-right: 10px;">
-                    <input type="checkbox" id=${id} name=${port} onchange="handlePortChange(event)" value="true" ${ports.includes(port) ? 'checked' : ''}>
+                    <input type="checkbox" id=${id} name=${id} onchange="handlePortChange(event)" value="true" ${ports.includes(port) ? 'checked' : ''}>
                     <label style="margin-bottom: 3px;" for=${id}>${port}</label>
                 </div>`;
             defaultHttpPorts.includes(port) ? httpPortsBlock += portBlock : httpsPortsBlock += portBlock;
@@ -2090,8 +2731,17 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
 					<input type="text" id="cleanIPs" name="cleanIPs" value="${cleanIPs.replaceAll(",", " , ")}">
 				</div>
                 <div class="form-control">
-                    <label>🔎 Online Scanner</label>
+                    <label>🔎 Online Scanner-1</label>
                     <a href="https://scanner.github1.cloud/" id="scanner" name="scanner" target="_blank">
+                        <button type="button" class="button">
+                            Scan now
+                            <span class="material-symbols-outlined" style="margin-left: 5px;">open_in_new</span>
+                        </button>
+                    </a>
+                </div>
+               <div class="form-control">
+                    <label>🔎 Online Scanner-2</label>
+                    <a href="https://cloudflare-scanner.vercel.app/" id="scanner" name="scanner" target="_blank">
                         <button type="button" class="button">
                             Scan now
                             <span class="material-symbols-outlined" style="margin-left: 5px;">open_in_new</span>
@@ -2118,11 +2768,11 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
                 <h2>WARP ENDPOINTS ⚙️</h2>
 				<div class="form-control">
                     <label for="wowEndpoint">✨ WoW Endpoints</label>
-                    <input type="text" id="wowEndpoint" name="wowEndpoint" value="${wowEndpoint.replaceAll(",", " , ")}" required>
+                    <input type="text" id="wowEndpoint" name="wowEndpoint" value="${wowEndpoint.replaceAll(",", " , ")}">
 				</div>
 				<div class="form-control">
                     <label for="warpEndpoints">✨ Warp Endpoints</label>
-                    <input type="text" id="warpEndpoints" name="warpEndpoints" value="${warpEndpoints.replaceAll(",", " , ")}" required>
+                    <input type="text" id="warpEndpoints" name="warpEndpoints" value="${warpEndpoints.replaceAll(",", " , ")}">
 				</div>
                 <div class="form-control">
                     <label>🔎 Scanner Script</label>
@@ -2190,10 +2840,6 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
                                 <span class="material-symbols-outlined symbol">verified</span>
                                 <span>Nekoray (Sing-Box)</span>
                             </div>
-                            <div>
-                                <span class="material-symbols-outlined symbol">verified</span>
-                                <span>Karing</span>
-                            </div>
                         </td>
 						<td>
                             <button onclick="copyToClipboard('https://${hostName}/sub/${userID}?app=singbox#BPB-Normal', false)">
@@ -2219,6 +2865,43 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
                     </tr>
 				</table>
 			</div>
+			<h2>4̷-◉-4̷ SUB 🤪</h2>
+			<div class="table-container">
+                <table id="frag-sub-table">
+                    <tr>
+                        <th style="text-wrap: nowrap;">Application</th>
+                        <th style="text-wrap: nowrap;">4̷-◉-4̷ Subscription</th>
+                    </tr>
+                    <tr>
+                        <td style="text-wrap: nowrap;">
+                            <div>
+                                <span class="material-symbols-outlined symbol">verified</span>
+                                <span>v2rayNG</span>
+                            </div>
+                            <div>
+                                <span class="material-symbols-outlined symbol">verified</span>
+                                <span>v2rayN</span>
+                            </div>
+                            <div>
+                                <span class="material-symbols-outlined symbol">verified</span>
+                                <span>MahsaNG</span>
+                            </div>
+                            <div>
+                                <span class="material-symbols-outlined symbol">verified</span>
+                                <span>Karing</span>
+                            </div>
+                        </td>
+                        <td>
+                            <button onclick="openQR('https://${hostName}/bestip/${userID}?uuid=${userID}')" style="margin-bottom: 8px;">
+                                QR Code&nbsp;<span class="material-symbols-outlined">qr_code</span>
+                            </button>
+                            <button onclick="copyToClipboard('https://${hostName}/bestip/${userID}?uuid=${userID}', true)">
+                                Copy Sub<span class="material-symbols-outlined">format_list_bulleted</span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 			<h2>FRAGMENT SUB ⛓️</h2>
 			<div class="table-container">
                 <table id="frag-sub-table">
@@ -2363,9 +3046,7 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 	<script>
-        const defaultHttpsPorts = ['443', '8443', '2053', '2083', '2087', '2096'];
-        let activePortsNo = ${ports.length};
-        let activeHttpsPortsNo = ${ports.filter(port => defaultHttpsPorts.includes(port)).length};
+    let activePortsNo = ${ports.length};
 		document.addEventListener('DOMContentLoaded', () => {
             const configForm = document.getElementById('configForm');            
             const modal = document.getElementById('myModal');
@@ -2431,29 +3112,12 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
 		});
 
         const handlePortChange = (event) => {
-            
-            if(event.target.checked) { 
-                activePortsNo++ 
-                defaultHttpsPorts.includes(event.target.name) && activeHttpsPortsNo++;
-            } else {
-                activePortsNo--;
-                defaultHttpsPorts.includes(event.target.name) && activeHttpsPortsNo--;
-            }
-
+            event.target.checked ? activePortsNo++ : activePortsNo--;
             if (activePortsNo === 0) {
                 event.preventDefault();
                 event.target.checked = !event.target.checked;
                 alert("⛔ At least one port should be selected! 🫤");
                 activePortsNo = 1;
-                defaultHttpsPorts.includes(event.target.name) && activeHttpsPortsNo++;
-                return false;
-            }
-                
-            if (activeHttpsPortsNo === 0) {
-                event.preventDefault();
-                event.target.checked = !event.target.checked;
-                alert("⛔ At least one TLS(https) port should be selected! 🫤");
-                activeHttpsPortsNo = 1;
                 return false;
             }
         }
@@ -2499,7 +3163,7 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
             const intervalMax = getValue('fragmentIntervalMax');
             const proxyIP = document.getElementById('proxyIP').value?.trim();
             const cleanIP = document.getElementById('cleanIPs');
-            const wowEndpoint = document.getElementById('wowEndpoint').value?.replaceAll(' ', '').split(',');
+            const wowEndpoint = document.getElementById('warpEndpoints').value?.replaceAll(' ', '').split(',');
             const warpEndpoints = document.getElementById('warpEndpoints').value?.replaceAll(' ', '').split(',');
             const cleanIPs = cleanIP.value?.split(',');
             const chainProxy = document.getElementById('outProxy').value?.trim();                    
@@ -2509,7 +3173,7 @@ const renderHomePage = async (env, hostName, fragConfigs) => {
             const validSecurityType = /security=(tls|none|reality)/.test(chainProxy);
             const validTransmission = /type=(tcp|grpc|ws)/.test(chainProxy);
             const validIPDomain = /^((?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|\\[(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,7}:\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,6}:[a-fA-F0-9]{1,4}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,5}(?::[a-fA-F0-9]{1,4}){1,2}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,4}(?::[a-fA-F0-9]{1,4}){1,3}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,3}(?::[a-fA-F0-9]{1,4}){1,4}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,2}(?::[a-fA-F0-9]{1,4}){1,5}\\]|\\[[a-fA-F0-9]{1,4}:(?::[a-fA-F0-9]{1,4}){1,6}\\]|\\[:(?::[a-fA-F0-9]{1,4}){1,7}\\]|\\[\\](?:::[a-fA-F0-9]{1,4}){1,7}\\])$/i;
-            const checkedPorts = Array.from(document.querySelectorAll('input[id^="port-"]:checked')).map(input => input.id.split('-')[1]);
+            const checkedPorts = Array.from(document.querySelectorAll('input[name^="port-"]:checked')).map(input => input.name.split('-')[1]);
             const validEndpoint = /^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|\\[(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,7}:\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,6}:[a-fA-F0-9]{1,4}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,5}(?::[a-fA-F0-9]{1,4}){1,2}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,4}(?::[a-fA-F0-9]{1,4}){1,3}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,3}(?::[a-fA-F0-9]{1,4}){1,4}\\]|\\[(?:[a-fA-F0-9]{1,4}:){1,2}(?::[a-fA-F0-9]{1,4}){1,5}\\]|\\[[a-fA-F0-9]{1,4}:(?::[a-fA-F0-9]{1,4}){1,6}\\]|\\[:(?::[a-fA-F0-9]{1,4}){1,7}\\]|\\[::(?::[a-fA-F0-9]{1,4}){0,7}\\]):(?:[0-9]{1,5})$/;
             checkedPorts.forEach(port => formData.append('ports[]', port));
 
@@ -2726,6 +3390,13 @@ const renderLoginPage = async () => {
     </head>
     <body>
         <div class="container">
+        <div class="modal-header">
+                <h5 class="modal-title h4">💠ONLY/:FORYOU&ALL💠</h4>
+            </div>
+           <div class="modal-dialog modal-fullscreen">
+            <div class="modal-header">
+                <h4 style="text-align: center; font-weight: bold;"><span style="color: #f40125">P</span><span style="color: #00FF00">a</span><span style="color: #f27401">s</span><span style="color: #008080">s</span><span style="color: #f27401">w</span><span style="color: #f3a101">o</span><span style="color: #FF00FF">r</span><span style="color: #f27401">d</span><span style="color: #1cfd00">&nbsp;</span><span style="color: #019cf0">R</span><span style="color: #344fe6">e</span><span style="color: #6601dc">q</span><span style="color: #9500f9">u</span><span style="color: #f90083">i</span><span style="color: #f90083">r</span><span style="color: #f90083">e</span><span style="color: #f27401">d</span><span style="color: #1cfd00">&nbsp;</span><span style="color: #f90083">B</span><span style="color: #f90083">y</span><span style="color: #1cfd00">&nbsp;</span><font color="#800080">4̷-◉-4̷</font></h4>
+            </div>
             <h1>BPB Panel <span style="font-size: smaller;">${panelVersion}</span> 💦</h1>
             <div class="form-container">
                 <h2>User Login</h2>
@@ -2738,6 +3409,11 @@ const renderLoginPage = async () => {
                     <button type="submit" class="button">Login</button>
                 </form>
             </div>
+            <div class="alert alert-info mt-3">
+                        ရိုးရှင်းသော စကားဝှက်အလွှာကို ထည့်သွင်းထားသည်။ <a style="white-space: nowrap" target="_blank" href="https://t.me/nkka404">Contact
+                        developer</a> for more information.
+                    </div>
+                </div>
         </div>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (event) => {
@@ -2756,7 +3432,7 @@ const renderLoginPage = async () => {
                 if (response.ok) {
                     window.location.href = '/panel';
                 } else {
-                    passwordError.textContent = '⚠️ Wrong Password!';
+                    passwordError.textContent = '⚠️ Wrong Password!(စကားဝှက် မှားနေသည်😷)';
                     const errorMessage = await response.text();
                     console.error('Login failed:', errorMessage);
                 }
@@ -3022,41 +3698,34 @@ const singboxConfigTemp = {
     dns: {
         servers: [
             {
+                tag: "dns-remote",
                 address: "https://8.8.8.8/dns-query",
-                address_resolver: "dns-direct",
-                strategy: "prefer_ipv4",
-                tag: "dns-remote"
+                address_resolver: "dns-direct"
             },
             {
+                tag: "dns-direct",
                 address: "8.8.8.8",
                 address_resolver: "dns-local",
-                strategy: "prefer_ipv4",
-                detour: "direct",
-                tag: "dns-direct"
+                detour: "direct"
             },
             {
+                tag: "dns-local",
                 address: "local",
-                tag: "dns-local"
+                detour: "direct"
             },
             {
-                address: "rcode://success",
-                tag: "dns-block"
+                tag: "dns-block",
+                address: "rcode://success"
             }
         ],
         rules: [
             {
-                domain_suffix: ".ir",
+                domain_suffix: [".ir"],
                 server: "dns-direct"
             },
             {
-                disable_cache: true,
-                rule_set: [
-                    "geosite-category-ads-all",
-                    "geosite-malware",
-                    "geosite-phishing",
-                    "geosite-cryptominers"
-                ],
-                server: "dns-block"
+                outbound: "direct",
+                server: "dns-direct"
             }
         ],
         independent_cache: true
@@ -3073,9 +3742,8 @@ const singboxConfigTemp = {
         {
             type: "tun",
             tag: "tun-in",
-            inet4_address: "172.19.0.1/28",
-            inet6_address: "fdfe:dcba:9876::1/126",
             mtu: 9000,
+            inet4_address: "172.19.0.1/28",
             auto_route: true,
             strict_route: true,
             endpoint_independent_nat: true,
@@ -3132,7 +3800,7 @@ const singboxConfigTemp = {
             {
                 network: "udp",
                 port: 443,
-                protocol: "quic",
+                port_range: [],
                 outbound: "block"
             },
             {
@@ -3223,9 +3891,6 @@ const singboxConfigTemp = {
         final: "proxy"
     },
     experimental: {
-        cache_file: {
-            enabled: true
-        },
         clash_api: {
             external_controller: "0.0.0.0:9090",
             external_ui: "yacd",
