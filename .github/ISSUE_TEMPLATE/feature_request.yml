@@ -1,0 +1,16 @@
+name: Feature Request | Request new features
+description: Request a new feature
+labels: ['enhancement']
+
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Here is a template you can use to share your ideas.
+              You can share your idea here.
+    - type: textarea
+      attributes:
+          label: Feature description | Feature description
+          description: Please provide a clear and concise description of what you want to happen and what problem this will solve Please provide a clear and concise description of what you want to happen and solve the problem that occurs.
+      validations:
+          required: true
